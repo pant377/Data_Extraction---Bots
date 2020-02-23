@@ -10,19 +10,17 @@ links = soup.find_all('a')
 
 def manage_links(links):
     urls = []
-    file2 = open("./links.txt","a", encoding='utf-8')
     for link in links:
         try:
             url = f"https://el.wikipedia.org/{link['href']}" 
             urls.append(url)
-            file2.write(url +'\n')
+            open("./links.txt","a", encoding='utf-8').write(url +'\n')
         except:
             pass       
     manage_urls(urls)          
 
 def manage_urls(urls):
     links2 = []
-    names = open("./names.txt","a",encoding='utf-8')
     for i in urls:
         try:
             page = requests.get(i)
@@ -33,15 +31,9 @@ def manage_urls(urls):
             links2.append(l)
             h1s.append(h1)
             print(h1)
-            names.write(h1 +'\n')
+            open("./names.txt","a",encoding='utf-8').write(h1 +'\n')
         except:
             pass
     manage_links(links2)
 
 manage_links(links)
-
-#fruits = ['apple','banana']
-#for num,fruit in enumerate(fruits):
-#  print(num)
-#  print(fruit)
-#Result: 0 apple 1 banana
