@@ -7,7 +7,7 @@ bigurl = []
 def manage_links(links):
     for link in links:
         try:
-            if('http' not in link['href']) and ('www' not in link['href']):
+            if('http' not in link['href']) and ('www' not in link['href']) and ('wikimedia' not in link['href']):
                 url = f"https://en.wikipedia.org{link['href']}" 
                 if (len(urls) <= 200) and (url[:-3] not in bigurl) and ("#" not in url):
                     open("./links.txt","a", encoding='utf-8').write(url +'\n')
