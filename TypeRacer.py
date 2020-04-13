@@ -2,37 +2,37 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver import Firefox
 import time
+import re
 lista = []
+url = input("Enter url > ") 
 driver = webdriver.Firefox(executable_path='/Users/pantelis/Downloads/geckodriver.exe')
-driver.get('https://play.typeracer.com/')
-time.sleep(1.6)
+driver.get(url)
+time.sleep(5)
 driver.find_element_by_class_name('qc-cmp-button').click()
-time.sleep(1.2)
-driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/table/tbody/tr[2]/td[2]/div/div[1]/div/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/a').click()
-time.sleep(3)
+time.sleep(0.6)
+driver.find_element_by_xpath('//*[@id="gwt-uid-17"]/table/tbody/tr[3]/td/table/tbody/tr/td[2]/a').click()
+time.sleep(2.3)
 res = driver.execute_script("return document.documentElement.outerHTML")
 soup = BeautifulSoup(res, 'html.parser')
-texts = soup.find_all('span')
+texts = soup.find_all('span')[2:]
 for i in texts:
-    if('' == i.text)or('('in i.text)or('Auto-updating' in i.text):
+    if('' == i.text)or('('==i.text[0]):
+        print("pass: "+i.text)
         pass
     else:
         lista.append(i.text)
+        print(i.text)
 while (driver.find_element_by_class_name('txtInput').is_enabled()==False):
-    time.sleep(0.3)
-while len(lista)!=0:
+    time.sleep(0.1)
+while (driver.find_element_by_class_name('txtInput').is_enabled()):
     n = lista.pop(0)
     if(len(n)>=5):
-        frash = n.split()
+        frash = re.split("( )",n)
         for i in frash:
-            print(" pano "+i)
-            driver.find_element_by_class_name('txtInput').send_keys(" "+i)
-            time.sleep(0.7)
-    elif(n.isdigit())or(n[0].isdigit())or(n[0]==':'):
-        pass
+            #print(" pano "+i)
+            driver.find_element_by_class_name('txtInput').send_keys(i)
+            time.sleep(0.43)
     else:        
-        print(n)
+        #print(n)
         driver.find_element_by_class_name('txtInput').send_keys(n)
-        time.sleep(0.1)
-        
-driver.quit()
+#auto me to countdown tha einai deutero panta [1]
