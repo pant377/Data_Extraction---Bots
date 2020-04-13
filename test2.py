@@ -21,7 +21,7 @@ def manage_links(links):
         
 def manage_urls(urls):
     for url in urls:
-        try:
+        try: 
             page = requests.get(url)
             soup = BeautifulSoup(page.content, 'html.parser')
             h1 = soup.find(("h1", {"id":"firstHeading"})).text
