@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup as bs
 import requests
-import time
 import pandas as pd
 countrylist = []
 countryc = []
@@ -23,13 +22,16 @@ for i in countrys:
       countryc.append(cpc)
       dpcountry.append(dpc)
    except:
-      print("")   
-tablecsv = pd.DataFrame({'Country':countrylist[0:],
-                         'Cases':countryc[0:],
-                         'Deaths':dpcountry[0:]})      
-
+      txt = i.text
+      cpc = i.next.next.next.text
+      dpc = i.next.next.next.next.next.next.next.next.next.text
+      print(txt," -- ",cpc," -- ",dpc)
+      countrylist.append(txt)
+      countryc.append(cpc)
+      dpcountry.append(dpc)   
+tablecsv = pd.DataFrame({'Country':countrylist,
+                         'Cases':countryc,
+                         'Deaths':dpcountry})      
 tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv")                         
-                         
 persent = (float(deths)/float(infected))*100
 print("Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %")
-#time.sleep(10)
