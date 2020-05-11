@@ -17,7 +17,6 @@ for i in countrys:
       txt = i.text
       cpc = i.next.next.next.text
       dpc = i.next.next.next.next.next.next.next.next.text
-      print(txt," -- ",cpc," -- ",dpc)
       countrylist.append(txt)
       countryc.append(cpc)
       dpcountry.append(dpc)
@@ -25,13 +24,18 @@ for i in countrys:
       txt = i.text
       cpc = i.next.next.next.text
       dpc = i.next.next.next.next.next.next.next.next.next.text
-      print(txt," -- ",cpc," -- ",dpc)
       countrylist.append(txt)
       countryc.append(cpc)
       dpcountry.append(dpc)   
 tablecsv = pd.DataFrame({'Country':countrylist,
                          'Cases':countryc,
-                         'Deaths':dpcountry})      
-tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv")                         
+                         'Deaths':dpcountry})                              
 persent = (float(deths)/float(infected))*100
-print("Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %")
+totalcases = "Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %"
+inputcountry = input("Give me a country (type ALL or country name (start with capitall letter except USA and UK)) OR (you can export it in csv just type csv) > ")
+if inputcountry == 'ALL':
+   print(totalcases)
+elif inputcountry == 'csv':
+   tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv")   
+else:   
+   print(tablecsv.loc[tablecsv['Country']== inputcountry])
