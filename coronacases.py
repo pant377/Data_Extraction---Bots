@@ -36,6 +36,6 @@ inputcountry = input("Give me a country (type ALL or country name (start with ca
 if inputcountry == 'ALL':
    print(totalcases)
 elif inputcountry == 'csv':
-   tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv")   
+   tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
 else:   
    print(tablecsv.loc[tablecsv['Country']== inputcountry])
