@@ -11,8 +11,9 @@ cases = soup.findAll(id='maincounter-wrap')
 infected = cases[0].find('span').text.replace(",","")
 deths = cases[1].find('span').text.replace(",","") 
 table = soup.find(id="main_table_countries_today")
-countrys = table.find_all((("a", {"class":"mt_a"})))
-for i in countrys:
+countrys = table.find_all(class_="mt_a")
+
+for i in countrys:   
    try:
       txt = i.text
       cpc = i.next.next.next.text
