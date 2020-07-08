@@ -1,6 +1,8 @@
 import pyttsx3
+import requests
 import speech_recognition as sr
 import re
+import time
 
 
 
@@ -11,23 +13,19 @@ def speak(txt):
 
 #speak("this is a test beach ass nigga")
 
-def listener():
-    print("methodos")
-    l = sr.Recognizer()
-    print("after recognize")
-    with sr.Microphone() as source:
-        print("inside with")
-        audio = l.listen(source)
-        print("preee try")
-        txt = ""
-        print("pre try")
+def get_audio():
+    r = sr.Recognizer()
+    with sr.Microphone(device_index=2) as source:
+        r.adjust_for_ambient_noise(source,duration=1)
+        print("Speak Please ..")
+        audio = r.listen(source)
+        said = ""
         try:
-            print("mesa try")
-            txt = l.recognize_google(audio)
-            return txt.lower()  
+            said = r.recognize_google(audio) 
         except Exception as e:
             print("Exception:",str(e))    
 
-    return txt.lower()        
+    return said.lower()        
 
-print(listener())
+print(get_audio())
+time.sleep(3)
