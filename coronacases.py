@@ -1,6 +1,29 @@
 from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
+import pyttsx3
+import requests
+import speech_recognition as sr
+import re
+import time
+
+def speak(txt):
+    engine = pyttsx3.init()
+    engine.say(txt)
+    engine.runAndWait()
+def get_audio():
+    r = sr.Recognizer()
+    with sr.Microphone(device_index=2) as source:
+        r.adjust_for_ambient_noise(source,duration=0.5)
+        print("Speak Please ..")
+        audio = r.listen(source, timeout=5)
+        said = ""
+        try:
+            said = r.recognize_google(audio) 
+        except Exception as e:
+            print("Exception:",str(e))       
+    return said        
+
 countrylist = []
 countryc = []
 dpcountry = []
@@ -33,10 +56,16 @@ tablecsv = pd.DataFrame({'Country':countrylist,
                          'Deaths':dpcountry})                              
 persent = (float(deths)/float(infected))*100
 totalcases = "Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %"
-inputcountry = input("Give me a country (type ALL or country name (start with capitall letter except USA and UK)) OR (you can export it in csv just type csv) > ")
-if inputcountry == 'ALL':
-   print(totalcases)
-elif inputcountry == 'csv':
-   tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
-else:   
-   print(tablecsv.loc[tablecsv['Country']== inputcountry])
+
+speak("Give me a country , say ALL , or country name , OR you can export it in csv , just say csv")
+inputcountry = get_audio()
+print(inputcountry)
+try:
+   if inputcountry == 'all':
+      print(totalcases)
+   elif inputcountry == 'csv':
+      tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
+   else:   
+      print(tablecsv.loc[tablecsv['Country']== inputcountry])
+except:
+   print("Error posibly in country name ...")
