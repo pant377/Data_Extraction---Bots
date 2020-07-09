@@ -1,7 +1,6 @@
 import pyttsx3
 import requests
 import speech_recognition as sr
-import re
 import time
 
 def speak(txt):

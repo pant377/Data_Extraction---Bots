@@ -4,7 +4,6 @@ import pandas as pd
 import pyttsx3
 import requests
 import speech_recognition as sr
-import re
 import time
 
 def speak(txt):
@@ -24,9 +23,7 @@ def get_audio():
             print("Exception:",str(e))       
     return said        
 
-countrylist = []
-countryc = []
-dpcountry = []
+countrylist,countryc,dpcountry = [] , [], []
 headers = {"User-Agent": 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0'}
 page = requests.get("https://www.worldometers.info/coronavirus/", headers=headers)
 soup = bs(page.content,'html.parser')
@@ -56,8 +53,7 @@ tablecsv = pd.DataFrame({'Country':countrylist,
                          'Deaths':dpcountry})                              
 persent = (float(deths)/float(infected))*100
 totalcases = "Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %"
-
-speak("Give me a country , say ALL , or country name , OR you can export it in csv , just say csv")
+speak("Give me a country or take manual control")
 inputcountry = get_audio()
 print(inputcountry)
 try:
@@ -65,6 +61,10 @@ try:
       print(totalcases)
    elif ('csv' in inputcountry) :
       tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
+   elif ('manual' in inputcountry):
+      country = input("Give me Country name -> ")
+      print(country)
+      print(tablecsv.loc[tablecsv['Country'] == country])
    else:   
       for i in countrylist:
          if (i in inputcountry):
