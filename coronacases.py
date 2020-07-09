@@ -23,7 +23,7 @@ def get_audio():
             print("Exception:",str(e))       
     return said        
 
-countrylist,countryc,dpcountry = [] , [], []
+countrylist,countryc,dpcountry,x = [] , [], [], True
 headers = {"User-Agent": 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0'}
 page = requests.get("https://www.worldometers.info/coronavirus/", headers=headers)
 soup = bs(page.content,'html.parser')
@@ -53,21 +53,24 @@ tablecsv = pd.DataFrame({'Country':countrylist,
                          'Deaths':dpcountry})                              
 persent = (float(deths)/float(infected))*100
 totalcases = "Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %"
-speak("Give me a country or take manual control")
-inputcountry = get_audio()
-print(inputcountry)
-try:
-   if ('all' in inputcountry) :
-      print(totalcases)
-   elif ('csv' in inputcountry) :
-      tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
-   elif ('manual' in inputcountry):
-      country = input("Give me Country name -> ")
-      print(country)
-      print(tablecsv.loc[tablecsv['Country'] == country])
-   else:   
-      for i in countrylist:
-         if (i in inputcountry):
-            print(tablecsv.loc[tablecsv['Country'] == i])
-except:
-   print("Error posibly in country name ...")
+speak("Give me anorder ")
+while True:
+   inputcountry = get_audio()
+   print(inputcountry)
+   try:
+      if ('all' in inputcountry) :
+         print(totalcases)
+      elif ('csv' in inputcountry) :
+         tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
+      elif ('manual' in inputcountry):
+         country = input("Give me Country name -> ")
+         print(country)
+         print(tablecsv.loc[tablecsv['Country'] == country])
+      elif ('exit'in inputcountry)or('close'in inputcountry):
+         break
+      else:   
+         for i in countrylist:
+            if (i in inputcountry):
+               print(tablecsv.loc[tablecsv['Country'] == i])
+   except:
+      print("Error posibly in country name ...")
