@@ -61,11 +61,13 @@ speak("Give me a country , say ALL , or country name , OR you can export it in c
 inputcountry = get_audio()
 print(inputcountry)
 try:
-   if inputcountry == 'all':
+   if ('all' in inputcountry) :
       print(totalcases)
-   elif inputcountry == 'csv':
+   elif ('csv' in inputcountry) :
       tablecsv.to_csv("C:/Users/pantelis/Desktop/file.csv",sep=',',index=False)   
    else:   
-      print(tablecsv.loc[tablecsv['Country']== inputcountry])
+      for i in countrylist:
+         if (i in inputcountry):
+            print(tablecsv.loc[tablecsv['Country'] == i])
 except:
    print("Error posibly in country name ...")
