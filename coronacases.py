@@ -18,6 +18,7 @@ def get_audio():
         audio = r.listen(source, timeout=5)
         said = ""
         try:
+            print("Analizing...")
             said = r.recognize_google(audio) 
         except Exception as e:
             print("Exception:",str(e))       
@@ -53,7 +54,7 @@ tablecsv = pd.DataFrame({'Country':countrylist,
                          'Deaths':dpcountry})                           
 persent = (float(deths)/float(infected))*100
 totalcases = "Cases: "+infected+" |Deaths: "+deths+" |Persentage of deaths: "+str(persent)[0:5]+" %"
-speak("Give me anorder ")
+speak("Give me an order")
 while True:
    inputcountry = get_audio()
    print(inputcountry)
@@ -72,6 +73,7 @@ while True:
          for i in countrylist:
             if (i in inputcountry):
                coun = tablecsv.loc[tablecsv['Country'] == i]
-               print(coun)
+               pers = (float(coun.get('Deaths').values[0].replace(",","") )/float(coun.get('Cases').values[0].replace(",","") ))*100
+               print(coun , "|Persentage of deaths: ",str(pers)[0:5],"%")
    except:
       print("Error posibly in country name ...")
