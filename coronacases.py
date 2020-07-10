@@ -66,7 +66,8 @@ while True:
       elif ('manual' in inputcountry):
          country = input("Give me Country name -> ")
          coun = tablecsv.loc[tablecsv['Country'] == country]
-         print(coun)
+         pers = (float(coun.get('Deaths').values[0].replace(",","") )/float(coun.get('Cases').values[0].replace(",","") ))*100
+         print(coun , "|Persentage of deaths: ",str(pers)[0:5],"%")
       elif ('exit'in inputcountry)or('close'in inputcountry):
          break
       else:   
